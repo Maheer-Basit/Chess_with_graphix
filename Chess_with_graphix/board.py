@@ -8,6 +8,7 @@ class ChessBoard:
         self.draw_board()
         self.draw_tiles()
         self.initialize_pieces()
+        self.move_piece()
 
     def draw_board(self):
         board = Rectangle(Point(200, 100), Point(728, 628))
@@ -15,9 +16,11 @@ class ChessBoard:
 
     def draw_tiles(self):
         tile_id = 0
+        #colours in the black tiles 
         black_tiles = [1, 3, 5, 7, 8, 10, 12, 14, 17, 19, 21, 23, 24, 26, 28, 30, 33, 35, 37, 39, 40, 42, 44, 46, 49, 51, 53, 55, 56, 58, 60, 62, 65]
         for row in range(8):
             for col in range(8):
+                #builds the board by going through the y axis then moving up 1 in the x axis
                 x1 = 200 + col * self.TILE_SIZE
                 y1 = 100 + row * self.TILE_SIZE
                 x2 = x1 + self.TILE_SIZE
@@ -64,6 +67,7 @@ class ChessBoard:
                     "D8":"QUEEN",
                     "E8":"KING",}
         
+        #Converts single chess notations into pixels co ordinates
         self.notation_to_pixel = {"A": 233,
                              "B": 299,
                              "C": 365,
@@ -80,7 +84,8 @@ class ChessBoard:
                              "6": 463,
                              "7": 529,
                              "8": 595}
-        
+        #Goes through the white and black dictionaires collecting the chess notations and placing the pieces on the board
+        #after converting the chess notation to pixels
         for position, piece_type in self.white_positions.items():
             x =  self.notation_to_pixel.get(position[0])
             y =  self.notation_to_pixel.get(position[1])
@@ -212,7 +217,49 @@ class ChessBoard:
     
 
     # TODO: Implement method to handle piece movement
-    def move_piece(self, from_pos, to_pos):
+    def move_piece(self):#, from_pos, to_pos
+        #check which tile user has clicked, use co ordinates to calculate which tile it is
+        #Create a dictionary to store the users pervious moves
+        self.moves_history = {}
+        #Create a pixel to chess notation dictionary
+        self.pixel_to_notation = { 233 : "A",
+                                299 : "B", 
+                                365:"C",
+                                431:"D",
+                                497:"E",
+                                563:"F",
+                                629:"G",
+                                695:"H",
+                                133:"1",
+                                199:"2",
+                                265:"3",
+                                331:"4",
+                                397:"5",
+                                463:"6",
+                                529:"7",
+                                595:"8" }
+        #Get the user clicks, store it as x and y values then use the pixel_to_chess notation to figure out the position and piece
+        #Gets the user mouse click, converts the point into string to get the x and y co ords then makes them into an interger
+        p = self.win.get_mouse()
+        string_p = str(p)
+        x = int(string_p[6:9])
+        y = int(string_p[11:14])
+        print(x, y)
+        
+        
+        if x > 200 and x < 728:
+            if y > 100 and y < 628:
+                print("Inside grid")
+            else:
+                print("Please select a chess piece")
+        else:
+            print("Please select a chess piece")
+        
+        #if it is a piece then light up the tile
+        #show the user the different moves they can do if they can do any with that piece
+        #Make sure special moves like en pessant and castling can also work
+        #def move_pawn():
+        
 
         pass
 
