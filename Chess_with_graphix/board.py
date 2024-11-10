@@ -30,10 +30,8 @@ class ChessBoard:
                     tile.fill_colour = "black"
                 tile.draw(self.win)
                 tile_id += 1
-
-    def initialize_pieces(self):
-        #Positions of the white and black pieces
-        self.white_positions = {"A2": "PAWN",
+                
+    self.white_positions = {"A2": "PAWN",
                     "B2":"PAWN",
                     "C2": "PAWN",
                     "D2":"PAWN",
@@ -50,7 +48,7 @@ class ChessBoard:
                     "D1":"QUEEN",
                     "E1":"KING",
                     }
-        self.black_positions = {"A7": "PAWN",
+    self.black_positions = {"A7": "PAWN",
                     "B7":"PAWN",
                     "C7": "PAWN",
                     "D7":"PAWN",
@@ -67,8 +65,8 @@ class ChessBoard:
                     "D8":"QUEEN",
                     "E8":"KING",}
         
-        #Converts single chess notations into pixels co ordinates
-        self.notation_to_pixel = {"A": 233,
+    #Converts single chess notations into pixels co ordinates
+    self.notation_to_pixel = {"A": 233,
                              "B": 299,
                              "C": 365,
                              "D": 431,
@@ -84,6 +82,25 @@ class ChessBoard:
                              "6": 463,
                              "7": 529,
                              "8": 595}
+    
+    self.pixel_to_notation = { 233 : "A",
+                                299 : "B", 
+                                365:"C",
+                                431:"D",
+                                497:"E",
+                                563:"F",
+                                629:"G",
+                                695:"H",
+                                133:"1",
+                                199:"2",
+                                265:"3",
+                                331:"4",
+                                397:"5",
+                                463:"6",
+                                529:"7",
+                                595:"8" }
+
+    def initialize_pieces(self):        
         #Goes through the white and black dictionaires collecting the chess notations and placing the pieces on the board
         #after converting the chess notation to pixels
         for position, piece_type in self.white_positions.items():
@@ -221,39 +238,25 @@ class ChessBoard:
         #check which tile user has clicked, use co ordinates to calculate which tile it is
         #Create a dictionary to store the users pervious moves
         self.moves_history = {}
-        #Create a pixel to chess notation dictionary
-        self.pixel_to_notation = { 233 : "A",
-                                299 : "B", 
-                                365:"C",
-                                431:"D",
-                                497:"E",
-                                563:"F",
-                                629:"G",
-                                695:"H",
-                                133:"1",
-                                199:"2",
-                                265:"3",
-                                331:"4",
-                                397:"5",
-                                463:"6",
-                                529:"7",
-                                595:"8" }
+        
+        
         #Get the user clicks, store it as x and y values then use the pixel_to_chess notation to figure out the position and piece
         #Gets the user mouse click, converts the point into string to get the x and y co ords then makes them into an interger
-        p = self.win.get_mouse()
-        string_p = str(p)
-        x = int(string_p[6:9])
-        y = int(string_p[11:14])
-        print(x, y)
-        
-        
-        if x > 200 and x < 728:
-            if y > 100 and y < 628:
-                print("Inside grid")
+        for i in range(20):
+            p = self.win.get_mouse()
+            string_p = str(p)
+            x = int(string_p[6:9])
+            y = int(string_p[11:14])
+            print(x, y)   
+               
+            if x > 200 and x < 728:
+                if y > 100 and y < 628:
+                    #check the tile clicked on
+                    #check if piece is on tile
+                else:
+                    print("Please select a chess piece")
             else:
                 print("Please select a chess piece")
-        else:
-            print("Please select a chess piece")
         
         #if it is a piece then light up the tile
         #show the user the different moves they can do if they can do any with that piece
