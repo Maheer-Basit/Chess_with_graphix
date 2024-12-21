@@ -1,4 +1,7 @@
 from graphix import Window, Text, Point, Rectangle, Line, Circle, Polygon
+drawn_pieces = []
+currently_selected_tile = []
+
 
 def main():
     turn = 0
@@ -11,6 +14,13 @@ def main():
         selected_tile(win, tile_x, tile_y)
         piece_x, piece_y = tile_x + 43, tile_y + 43
         print(piece_x, piece_y)
+        turn += 1
+        if turn % 2 == 0:
+            print("White's turn")
+        else:
+            print("black's turn")
+        print(currently_selected_tile)
+        
         
     
 
@@ -37,7 +47,7 @@ def chess_board(win):
                 rec.fill_colour = "grey"
             
 def draw_initial_pieces(win):
-    drawn_pieces = []
+    
     piece_colour = ""
     text_colour = ""
     count = 0
@@ -71,6 +81,10 @@ def selected_tile(win, x, y):
     rec = Rectangle(Point(x, y), Point(x + 75, y + 75))
     rec.outline_width = 5
     rec.draw(win)
+    currently_selected_tile.append(rec)
+    #key = win.get_key()
+    #if key == "right":
+       # rec.undraw()
     
 
 def Pawn(x, y, win, piece_colour, text_colour):
