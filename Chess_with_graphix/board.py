@@ -1,12 +1,25 @@
 from graphix import Window, Text, Point, Rectangle, Line, Circle, Polygon
 
 def main():
+    turn = 0
     win = Window("Chess", 600, 600)
     chess_board(win)
     draw_initial_pieces(win)
+    
+    while True:
+        tile_x, tile_y = user_click(win)
+        selected_tile(win, tile_x, tile_y)
+        piece_x, piece_y = tile_x + 43, tile_y + 43
+        print(piece_x, piece_y)
+        
+    
 
 def user_click(win):
     click = win.get_mouse()
+    tile_x, tile_y = click.x//75 * 75, click.y//75 * 75
+    print(tile_x, tile_y)
+    return tile_x, tile_y
+    
     
 def chess_board(win):
     for y in range(0,600, 75):
@@ -24,6 +37,7 @@ def chess_board(win):
                 rec.fill_colour = "grey"
             
 def draw_initial_pieces(win):
+    drawn_pieces = []
     piece_colour = ""
     text_colour = ""
     count = 0
@@ -42,12 +56,22 @@ def draw_initial_pieces(win):
         if y in (0, 525):
             for piece in pieces_setup:
                 piece(x + middle, y+ middle, win, piece_colour, text_colour)
+                drawn_pieces.append(piece)
                 x+= 75
         if y in (75, 450):
              for piece in range(8):
                 Pawn(x + middle, y+ middle, win, piece_colour, text_colour)
+                drawn_pieces.append(Pawn)
                 x+= 75
         
+        
+    return drawn_pieces
+
+def selected_tile(win, x, y):
+    rec = Rectangle(Point(x, y), Point(x + 75, y + 75))
+    rec.outline_width = 5
+    rec.draw(win)
+    
 
 def Pawn(x, y, win, piece_colour, text_colour):
     pawn_head = Circle(Point(x, y), 14)
