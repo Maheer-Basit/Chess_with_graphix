@@ -10,9 +10,17 @@ def main():
     draw_initial_pieces(win)
     
     while True:
+        
         tile_x, tile_y = user_click(win)
+        for pattern in currently_selected_tile:
+               pattern.undraw()
+               currently_selected_tile.pop()
         selected_tile(win, tile_x, tile_y)
         piece_x, piece_y = tile_x + 43, tile_y + 43
+        
+
+            
+
         print(piece_x, piece_y)
         turn += 1
         if turn % 2 == 0:
@@ -20,6 +28,8 @@ def main():
         else:
             print("black's turn")
         print(currently_selected_tile)
+    
+    
         
         
     
