@@ -1,5 +1,4 @@
 from graphix import Window, Text, Point, Rectangle, Line, Circle, Polygon
-drawn_pieces = []
 currently_selected_tile = []
 
 
@@ -9,7 +8,7 @@ def main():
     win = Window("Chess", 600, 600)
     
     chess_board(win)
-    result, chess_piece, pawn_piece = draw_initial_pieces(win)
+    chess_object, chess_piece = draw_initial_pieces(win)
     
     
     
@@ -20,29 +19,23 @@ def main():
                pattern.undraw()
                currently_selected_tile.pop()
         selected_tile(win, tile_x, tile_y)
-        piece_x, piece_y = tile_x + 43, tile_y + 43
         
-        print(result)
+        print(chess_object)
 
-        if (tile_x, tile_y) in result:
-            pawn_piece = result[(tile_x, tile_y)]
-            print(pawn_piece[0])
-            pawn_piece[0].undraw()
-            pawn_piece[1].undraw()
-        
-       # target_point = Point(piece_x, piece_y)
-       # for piece in drawn_pieces:
-           # if any (point == target_point for point in piece[0].points) in piece:
-           #     print(piece)
+        if (tile_x, tile_y) in chess_object:
+            chess_piece = chess_object[(tile_x, tile_y)]
+            print(chess_piece[0])
+            chess_piece[0].undraw()
+            chess_piece[1].undraw()
+            chess_object.pop((tile_x, tile_y))
 
-            
         turn += 1
         if turn % 2 == 0:
             print("White's turn")
         else:
             print("black's turn")
         print(currently_selected_tile)
-        #print(drawn_pieces)
+        
     
         
         
@@ -106,7 +99,7 @@ def draw_initial_pieces(win):
 
         
         
-    return grid_objects, chess_piece, pawn_piece
+    return grid_objects, chess_piece
 
 def selected_tile(win, x, y):
     rec = Rectangle(Point(x, y), Point(x + 75, y + 75))
