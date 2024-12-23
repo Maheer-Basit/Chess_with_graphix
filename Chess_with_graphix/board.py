@@ -4,10 +4,14 @@ currently_selected_tile = []
 
 
 def main():
+    
     turn = 0
     win = Window("Chess", 600, 600)
+    
     chess_board(win)
-    draw_initial_pieces(win)
+    result, chess_piece, pawn_piece = draw_initial_pieces(win)
+    
+    
     
     while True:
         
@@ -18,17 +22,27 @@ def main():
         selected_tile(win, tile_x, tile_y)
         piece_x, piece_y = tile_x + 43, tile_y + 43
         
+        print(result)
+
+        if (tile_x, tile_y) in result:
+            pawn_piece = result[(tile_x, tile_y)]
+            print(pawn_piece[0])
+            pawn_piece[0].undraw()
+            pawn_piece[1].undraw()
+        
+       # target_point = Point(piece_x, piece_y)
+       # for piece in drawn_pieces:
+           # if any (point == target_point for point in piece[0].points) in piece:
+           #     print(piece)
 
             
-
-        print(piece_x, piece_y)
         turn += 1
         if turn % 2 == 0:
             print("White's turn")
         else:
             print("black's turn")
         print(currently_selected_tile)
-    
+        #print(drawn_pieces)
     
         
         
@@ -57,14 +71,16 @@ def chess_board(win):
                 rec.fill_colour = "grey"
             
 def draw_initial_pieces(win):
-    
     piece_colour = ""
     text_colour = ""
     count = 0
     x = 0
     middle = 43
+    grid_objects = {}
     pieces_setup = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     for y in range(0, 600, 75):
+        
+        
         x = 0
         if y > 150:
             piece_colour = "white"
@@ -75,17 +91,22 @@ def draw_initial_pieces(win):
         
         if y in (0, 525):
             for piece in pieces_setup:
-                piece(x + middle, y+ middle, win, piece_colour, text_colour)
-                drawn_pieces.append(piece)
+                chess_piece = piece(x + middle, y+ middle, win, piece_colour, text_colour)
+                #drawn_pieces.append(piece(x + middle, y+ middle, win, piece_colour, text_colour))
+                grid_objects[(x, y)] = chess_piece
+                
                 x+= 75
+                
         if y in (75, 450):
              for piece in range(8):
-                Pawn(x + middle, y+ middle, win, piece_colour, text_colour)
-                drawn_pieces.append(Pawn)
+                pawn_piece = Pawn(x + middle, y+ middle, win, piece_colour, text_colour)
+                #drawn_pieces.append(Pawn(x + middle, y+ middle, win, piece_colour, text_colour)) 
+                grid_objects[(x, y)] = pawn_piece
                 x+= 75
+
         
         
-    return drawn_pieces
+    return grid_objects, chess_piece, pawn_piece
 
 def selected_tile(win, x, y):
     rec = Rectangle(Point(x, y), Point(x + 75, y + 75))
@@ -107,6 +128,8 @@ def Pawn(x, y, win, piece_colour, text_colour):
     pawn_head.draw(win)
     pawn_text.draw(win)
 
+    return pawn_head, pawn_text
+
 def Rook(x, y, win, piece_colour, text_colour):
     body = Rectangle(Point(x - 16, y - 16), Point(x + 16, y + 10))                
     rook_text = Text(Point(x, y), "R")
@@ -115,6 +138,8 @@ def Rook(x, y, win, piece_colour, text_colour):
     rook_text.size = 8
     rook_text.fill_colour = text_colour
     rook_text.draw(win)
+
+    return body, rook_text
     
 def Knight(x, y, win, piece_colour, text_colour):
     points = [Point(x - 10, y - 10), Point(x + 16, y - 20), Point(x + 16, y + 20), Point(x - 10, y + 20)]
@@ -126,6 +151,8 @@ def Knight(x, y, win, piece_colour, text_colour):
     knight_text.fill_colour = text_colour
     knight_text.draw(win)
 
+    return body, knight_text
+
 def Bishop(x, y, win, piece_colour, text_colour):
     points = [Point(x - 12, y - 10), Point(x + 3, y - 20), Point(x + 16, y - 10), Point(x + 16, y + 15), Point(x - 12, y + 15)]
     body = Polygon(points)
@@ -135,6 +162,8 @@ def Bishop(x, y, win, piece_colour, text_colour):
     bishop_text.size = 8
     bishop_text.fill_colour = text_colour
     bishop_text.draw(win)
+
+    return body, bishop_text
 
 def Queen(x, y, win, piece_colour, text_colour):
     points = [Point(x - 10, y - 12), Point(x + 3, y - 7), Point(x + 16, y  -12), Point(x + 16, y + 20), Point(x - 10, y + 20)]
@@ -146,6 +175,8 @@ def Queen(x, y, win, piece_colour, text_colour):
     queen_text.fill_colour = text_colour
     queen_text.draw(win)
 
+    return body, queen_text
+
 def King(x, y, win, piece_colour, text_colour):
     points = [Point(x - 10, y - 10), Point(x + 4, y - 20), Point(x + 16, y - 10), Point(x + 16, y + 20), Point(x - 10,y + 20)]
     body = Polygon(points)
@@ -155,5 +186,8 @@ def King(x, y, win, piece_colour, text_colour):
     king_text.size = 8
     king_text.fill_colour = text_colour
     king_text.draw(win)
+
+    return body, king_text
+
 
 main()
