@@ -22,12 +22,21 @@ def main():
         
         print(chess_object)
 
+        move_x, move_y = user_click(win)
+
         if (tile_x, tile_y) in chess_object:
             chess_piece = chess_object[(tile_x, tile_y)]
-            print(chess_piece[0])
-            chess_piece[0].undraw()
-            chess_piece[1].undraw()
-            chess_object.pop((tile_x, tile_y))
+            
+            if (move_x, move_y) not in chess_object:
+                #chess_piece[0].undraw()
+                #chess_piece[1].undraw()
+                chess_object.pop((tile_x, tile_y))
+                
+                print(chess_piece[0])
+                chess_piece[0].move(move_x - tile_x, move_y - tile_y)
+                chess_piece[1].move(move_x - tile_x, move_y - tile_y)
+                chess_object[(move_x, move_y)] = chess_piece
+            
 
         turn += 1
         if turn % 2 == 0:
@@ -61,7 +70,7 @@ def chess_board(win):
             elif y % 2 != 0 and x % 2 != 0:            
                 rec.fill_colour = "white"
             else:
-                rec.fill_colour = "grey"
+                rec.fill_colour = "brown"
             
 def draw_initial_pieces(win):
     piece_colour = ""
