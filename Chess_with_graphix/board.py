@@ -5,6 +5,7 @@ currently_selected_tile = []
 def main():
     
     turn = 0
+    binary_turn = 0
     win = Window("Chess", 600, 600)
     
     chess_board(win)
@@ -15,8 +16,11 @@ def main():
     while True:
         if turn % 2 == 0:
             print("White's turn")
+            binary_turn = 0
+
         else:
             print("black's turn")
+            binary_turn = 1
         print(currently_selected_tile)
         tile_x, tile_y = user_click(win)
         for pattern in currently_selected_tile:
@@ -27,16 +31,23 @@ def main():
         print(chess_object)
         
         move_x, move_y = user_click(win)
+        print("tile", tile_y, "move", move_y)
         
         if (tile_x, tile_y) in chess_object:
             chess_piece = chess_object[(tile_x, tile_y)]
             
             if (move_x, move_y) not in chess_object:
-                chess_object.pop((tile_x, tile_y))
+                
                 
                 content = str(chess_piece[-1])
                 piece_letter = str(content.strip()[-4:-2])
                 print(piece_letter)
+                if is_valid(piece_letter, tile_x, move_x,  tile_y ,move_y):
+                    print("valid move")
+                else:
+                    print("Invalid move")
+                    continue
+                chess_object.pop((tile_x, tile_y))
                 chess_piece[0].move(move_x - tile_x, move_y - tile_y)
                 chess_piece[1].move(move_x - tile_x, move_y - tile_y)
                 chess_object[(move_x, move_y)] = chess_piece
@@ -122,6 +133,15 @@ def selected_tile(win, x, y):
     #if key == "right":
        # rec.undraw()
     
+def is_valid(piece_letter, x1, x2, y1, y2):
+    if piece_letter == "WP":
+        return x1 == x2 and y2 == y1 - 75
+    if piece_letter == "BP":
+        return x1 == x2 and y2 == y1 + 75
+
+
+
+
 
 def Pawn(x, y, win, piece_colour, text_colour, piece_type):
     pawn_head = Circle(Point(x, y), 14)
