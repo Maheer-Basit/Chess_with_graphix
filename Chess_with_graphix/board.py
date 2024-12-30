@@ -42,7 +42,7 @@ def main():
                 content = str(chess_piece[-1])
                 piece_letter = str(content.strip()[-4:-2])
                 print(piece_letter)
-                if is_valid(piece_letter, tile_x, move_x,  tile_y ,move_y):
+                if is_valid(piece_letter, tile_x, move_x,  tile_y, move_y):
                     print("valid move")
                 else:
                     print("Invalid move")
@@ -57,7 +57,7 @@ def main():
         
         
     
-        
+       
         
     
 
@@ -133,14 +133,28 @@ def selected_tile(win, x, y):
     #if key == "right":
        # rec.undraw()
     
+
+################################### Valid move checker##############################################
+
+
 def is_valid(piece_letter, x1, x2, y1, y2):
     if piece_letter == "WP":
-        return x1 == x2 and y2 == y1 - 75
-    if piece_letter == "BP":
-        return x1 == x2 and y2 == y1 + 75
+        return x1 == x2 and y2 == y1 - 75 or x1 == x2 and (y1 == 450 and y2 == y1 - 150)
+    elif piece_letter == "BP":
+        return x1 == x2 and y2 == y1 + 75 or x1 == x2 and (y1 == 75 and y2 == y1 + 150)
+    elif piece_letter[1] == "K":
+        return abs(y2 - y1) == 75 or (x2 - x1) == 75 and (y2 - y1) == 75 or abs(x2 -x1) == 75
+    elif piece_letter[1] == "Q":
+        return (abs(x2 - x1) == 0 and abs(y2 - y1) != 0 or abs(y2 - y1) == 0 and abs(x2 - x1) != 0) 
+    elif piece_letter[1] == "R":
+        return abs(x2 - x1) == 0 and abs(y2 - y1) != 0 or abs(y2 - y1) == 0 and abs(x2 - x1) != 0
+    #elif piece_letter[1] == "B":
 
 
 
+
+
+##################################### Pieces patterns ##############################################
 
 
 def Pawn(x, y, win, piece_colour, text_colour, piece_type):
