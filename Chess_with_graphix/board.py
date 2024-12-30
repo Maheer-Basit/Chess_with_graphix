@@ -41,7 +41,6 @@ def main():
                 
                 content = str(chess_piece[-1])
                 piece_letter = str(content.strip()[-4:-2])
-                print(piece_letter)
                 if is_valid(piece_letter, tile_x, move_x,  tile_y, move_y):
                     print("valid move")
                 else:
@@ -145,10 +144,14 @@ def is_valid(piece_letter, x1, x2, y1, y2):
     elif piece_letter[1] == "K":
         return abs(y2 - y1) == 75 or (x2 - x1) == 75 and (y2 - y1) == 75 or abs(x2 -x1) == 75
     elif piece_letter[1] == "Q":
-        return (abs(x2 - x1) == 0 and abs(y2 - y1) != 0 or abs(y2 - y1) == 0 and abs(x2 - x1) != 0) 
+        return (abs(x2 - x1) == 0 and abs(y2 - y1) != 0 or abs(y2 - y1) == 0 and abs(x2 - x1) != 0) or (abs(x2 - x1) == abs(y2 - y1) )
     elif piece_letter[1] == "R":
         return abs(x2 - x1) == 0 and abs(y2 - y1) != 0 or abs(y2 - y1) == 0 and abs(x2 - x1) != 0
-    #elif piece_letter[1] == "B":
+    elif piece_letter[1] == "B":
+        return abs(x2 - x1) == abs(y2 - y1)
+    elif piece_letter[1] == "H":
+        return abs(x2 - x1) == 75 and abs(y2 - y1) == 150 or abs(x2 - x1) == 150 and abs(y2 - y1) == 75
+        
 
 
 
